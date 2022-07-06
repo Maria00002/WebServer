@@ -69,7 +69,7 @@ class requestHandler(BaseHTTPRequestHandler):
             if ctype == 'multipart/form-data':
                 fields = cgi.parse_multipart(self.rfile,pdict)
                 new_task = fields.get('task')
-                max_id = len(tasklist)
+                max_id = max(list(tasklist.keys()))                
                 print(len(tasklist))
                 tasklist[max_id+1] = new_task[0]
                 print(tasklist)
