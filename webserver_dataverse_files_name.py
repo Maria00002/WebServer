@@ -5,6 +5,7 @@ dataverse_files = { 1: 'B1E',2: 'B2E', 3: 'BME', 4: 'CDE', 5: 'CWE', 6:'DNE', 7:
                     10: 'FGE', 11: 'FRE', 12: 'FRG', 13: 'GRE', 14: 'HPE', 15 : 'HTE', 16: 'HTW' , 17: 'OFE', 
                     18: 'OUE', 19: 'TVE', 20: 'UTE', 21: 'WHE', 22: 'WHG', 23: 'WHW', 24: 'WOE'} 
 
+
 class requestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path.endswith('/dataverse_files'):
