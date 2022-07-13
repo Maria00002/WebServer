@@ -68,8 +68,13 @@ class requestHandler(BaseHTTPRequestHandler):
             if ctype == 'multipart/form-data':
                 fields = cgi.parse_multipart(self.rfile,pdict)
                 new_task = fields.get('task')
+<<<<<<< HEAD
                 max_id = max(list(tasklist.keys()))     
                 # print(len(tasklist))
+=======
+                max_id = max(list(tasklist.keys()))                
+                print(len(tasklist))
+>>>>>>> d468dfd4762d1445b2c856d03945030155a21018
                 tasklist[max_id+1] = new_task[0]
                 # print(tasklist)
                 
@@ -98,6 +103,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+<<<<<<< HEAD
 
 
 # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/B1E.htm"> B1E </a></h1>'
@@ -132,3 +138,5 @@ if __name__ == '__main__':
 
 
 
+=======
+>>>>>>> d468dfd4762d1445b2c856d03945030155a21018
