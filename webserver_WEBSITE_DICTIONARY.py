@@ -42,7 +42,6 @@ class requestHandler(BaseHTTPRequestHandler):
             output += '<input type="submit" value="Add">'
             output += '</form>'
             output += '</body></html>'
-
             self.wfile.write(output.encode())
         
         if self.path.endswith('/remove'):
@@ -69,10 +68,10 @@ class requestHandler(BaseHTTPRequestHandler):
             if ctype == 'multipart/form-data':
                 fields = cgi.parse_multipart(self.rfile,pdict)
                 new_task = fields.get('task')
-                max_id = len(tasklist)
-                print(len(tasklist))
+                max_id = max(list(tasklist.keys()))     
+                # print(len(tasklist))
                 tasklist[max_id+1] = new_task[0]
-                print(tasklist)
+                # print(tasklist)
                 
             self.send_response(301)
             self.send_header('content-type','text/html')
@@ -99,3 +98,37 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/B1E.htm"> B1E </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/B2E.htm"> B2E </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/BME.htm"> BME </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/CDE.htm"> CDE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/CWE.htm"> CWE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/DNE.htm"> DNE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/DWE.htm"> DWE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/EBE.htm"> EBE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/EQE.htm"> EQE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/FGE.htm"> FGE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/FRE.htm"> FRE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/FRG.htm"> FRG </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/GRE.htm"> GRE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/HPE.htm"> HPE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/HTE.htm"> HTE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/HTW.htm"> HTW </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/OFE.htm"> OFE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/OUE.htm"> OUE </a></h1>'			
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/TVE.htm"> TVE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/UTE.htm"> UTE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/WHE.htm"> WHE </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/WHG.htm"> WHG </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/WHW.htm"> WHW </a></h1>'
+            # output += '<h3><a href="file:///C:/Maria/SFU/SFU%20Thesis/Figure%2017%20Research%20Paper/dataverse_files/WOE.htm"> WOE </a></h1>'
+
+
+
+
+
+
+
+
