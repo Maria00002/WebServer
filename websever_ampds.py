@@ -1,7 +1,10 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import cgi
 
-ROOT_DIR = '/Users/stephen/SourceCode/Maria/WebServer/AMPds'
+MACOS_ROOT_DIR = '/Users/stephen/SourceCode/Maria/WebServer/AMPds/'
+WINDOWS_ROOT_DIR = 'C:\\Maria\\SFU\\SFU Thesis\\Figure 17 Research Paper\\dataverse_files\\excel_files\\'
+
+ROOT_DIR = WINDOWS_ROOT_DIR
 
 dataverse_files = { 'B1E': "B1E.CSV",
 'B2E': "B2E.CSV", 
@@ -54,7 +57,7 @@ class requestHandler(BaseHTTPRequestHandler):
                 output = ''
                 output += '<html><body>'
                 output += '<pre>'
-                with open('%s/%s' % (ROOT_DIR, dataverse_files[file_name])) as myfile:
+                with open('%s%s' % (ROOT_DIR, dataverse_files[file_name])) as myfile:
                     for x in range(line_num):
                         output += next(myfile)                    
                 output += '</pre>'
