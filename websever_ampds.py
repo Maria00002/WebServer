@@ -40,7 +40,7 @@ class requestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             output = ''
             output += '<html><body>'			
-            output += '<h1/AMPds</h1>'
+            output += '<h1>AMPds</h1>'
             for (id,path_directory) in dataverse_files.items():
                 output += '<h3><a href="/AMPds/%s"> %s </a></h3>' % (id,id)
             output += '</body></html>'
