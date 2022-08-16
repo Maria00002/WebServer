@@ -1,10 +1,10 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
 import pandas as pd
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
 MACOS_ROOT_DIR = '/Users/stephen/SourceCode/Maria/WebServer/AMPds/'
 WINDOWS_ROOT_DIR = 'C:\\Maria\\SFU\\SFU Thesis\\Figure 17 Research Paper\\dataverse_files\\excel_files\\'
 
-ROOT_DIR = WINDOWS_ROOT_DIR
+ROOT_DIR = MACOS_ROOT_DIR
 
 dataverse_files = { 'B1E': "B1E.CSV",
 'B2E': "B2E.CSV", 
@@ -31,17 +31,17 @@ dataverse_files = { 'B1E': "B1E.CSV",
 'WHW': "WHW.CSV", 
 'WOE': "WOE.CSV"} 
 
+file_name = ''
 line_num = 10
-header_row = 1
+#header_row = 1
 header = ''
-new_header = []
+#new_header = []
+col_names = []
 
 class requestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        global line_num
-        global file_name
-        global header
-        global new_header
+        global file_name, line_num, header, col_names
+
         if self.path.endswith('/AMPds'):
             self.send_response(200)
             self.send_header('content-type','text/html')
@@ -53,7 +53,7 @@ class requestHandler(BaseHTTPRequestHandler):
                 output += '<h3><a href="/AMPds/%s"> %s </a></h3>' % (id,id)
             output += '</body></html>'
             self.wfile.write(output.encode())
-        
+
         for file_name in dataverse_files.keys():
             if self.path.endswith('/%s' % file_name):
                 self.send_response(200)
@@ -61,30 +61,28 @@ class requestHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 output = ''
                 output += '<html><body>'
-                output += '<pre>'
                 with open('%s%s' % (ROOT_DIR, dataverse_files[file_name])) as myfile:
-                    for x in range(header_row):
-                        header += next(myfile)                  
-                        for word in header.split(','):
-                            new_header.append(word)
-                output += '</pre>'
-                for index in new_header:
-                    output += '<a href="http://localhost:8000/AMPds/%s/%s"> <button> %s </button></a>' % (file_name,index,index)
-                output += '<a href="http://localhost:8000/AMPds"> <button> back </button></a>'
+                    header = myfile.readline()
+                    col_names = list(header.split(','))
+                for col_name in col_names:
+                    output += '<a href="http://localhost:8000/AMPds/%s/%s"><button>&nbsp;&nbsp;%s&nbsp;&nbsp;</button></a>&nbsp;&nbsp;' % (file_name,col_name,col_name)
+                output += '<a href="http://localhost:8000/AMPds"><button>&nbsp;&nbsp;back&nbsp;&nbsp;</button></a>'
                 output += '</body></html>'
                 self.wfile.write(output.encode())
 
         for file_name in dataverse_files.keys():
-            for header_name in new_header:
-                if self.path.endswith('/%s/%s' % (file_name,header_name)):
+            for col_name in col_names:
+                if self.path.endswith('/%s/%s' % (file_name,col_name)):
                         self.send_response(200)
                         self.send_header('content-type','text/html')
                         self.end_headers()
                         output = ''
                         output += '<html><body>'
                         output += '<pre>'
-                        file_reading = pd.read_csv(ROOT_DIR + dataverse_files[file_name], nrows = line_num)
-                        output += file_reading.loc[:,'TS' ]   ## this line has problem                  
+                        file_reading = pd.read_csv('%s%s' % (ROOT_DIR, dataverse_files[file_name]), nrows = line_num)
+                        for row in file_reading.loc[:,['TS',col_name]].iterrows():
+                            #output += file_reading.loc[:,['TS',col_name]]   ## this line has problem                  
+                            output += '%s  %s\n' % (str(row[0]), str(row[1]))                
                         output += '</pre>'
                         output += '<a href="http://localhost:8000/AMPds"> <button> Back to Home Page </button></a>'
                         output += '</body></html>'
