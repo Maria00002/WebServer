@@ -6,41 +6,41 @@ WINDOWS_ROOT_DIR = 'C:\\Maria\\SFU\\SFU Thesis\\Figure 17 Research Paper\\datave
 
 ROOT_DIR = MACOS_ROOT_DIR
 
-dataverse_files = { 'B1E': "B1E.CSV",
-'B2E': "B2E.CSV", 
-'BME': "BME.CSV", 
-'CDE': "CDE.CSV", 
-'CWE': "CWE.CSV", 
-'DNE': "DNE.CSV", 
-'DWE': "DWE.CSV", 
-'EBE': "EBE.CSV", 
-'EQE': "EQE.CSV", 
-'FGE': "FGE.CSV", 
-'FRE': "FRE.CSV", 
-'FRG': "FRG.CSV", 
-'GRE': "GRE.CSV", 
-'HPE': "HPE.CSV", 
-'HTE': "HTE.CSV", 
-'HTW': "HTW.CSV" , 
-'OFE': "OFE.CSV", 
-'OUE': "OUE.CSV", 
-'TVE': "TVE.CSV", 
-'UTE': "UTE.CSV", 
-'WHE': "WHE.CSV", 
-'WHG': "WHG.CSV", 
-'WHW': "WHW.CSV", 
-'WOE': "WOE.CSV"} 
+# localhost:8000/AMPds.B1E.V@12234~21234
 
-file_name = ''
+dataverse_files = { 'B1E': "B1E.CSV",
+                    'B2E': "B2E.CSV", 
+                    'BME': "BME.CSV", 
+                    'CDE': "CDE.CSV", 
+                    'CWE': "CWE.CSV", 
+                    'DNE': "DNE.CSV", 
+                    'DWE': "DWE.CSV", 
+                    'EBE': "EBE.CSV", 
+                    'EQE': "EQE.CSV", 
+                    'FGE': "FGE.CSV", 
+                    'FRE': "FRE.CSV", 
+                    'FRG': "FRG.CSV", 
+                    'GRE': "GRE.CSV", 
+                    'HPE': "HPE.CSV", 
+                    'HTE': "HTE.CSV", 
+                    'HTW': "HTW.CSV" , 
+                    'OFE': "OFE.CSV", 
+                    'OUE': "OUE.CSV", 
+                    'TVE': "TVE.CSV", 
+                    'UTE': "UTE.CSV", 
+                    'WHE': "WHE.CSV", 
+                    'WHG': "WHG.CSV", 
+                    'WHW': "WHW.CSV", 
+                    'WOE': "WOE.CSV" } 
+
+filename = ''
 line_num = 10
-#header_row = 1
 header = ''
-#new_header = []
 col_names = []
 
 class requestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        global file_name, line_num, header, col_names
+        global filename, line_num, header, col_names
 
         if self.path.endswith('/AMPds'):
             self.send_response(200)
@@ -50,38 +50,37 @@ class requestHandler(BaseHTTPRequestHandler):
             output += '<html><body>'			
             output += '<h1>AMPds</h1>'
             for (id,path_directory) in dataverse_files.items():
-                output += '<h3><a href="/AMPds/%s"> %s </a></h3>' % (id,id)
+                output += '<h3><a href="/AMPds.%s"> %s </a></h3>' % (id,id)
             output += '</body></html>'
             self.wfile.write(output.encode())
 
-        for file_name in dataverse_files.keys():
-            if self.path.endswith('/%s' % file_name):
+        for filename in dataverse_files.keys():
+            if self.path.endswith('.%s' % filename):
                 self.send_response(200)
                 self.send_header('content-type','text/html')
                 self.end_headers()
                 output = ''
                 output += '<html><body>'
-                with open('%s%s' % (ROOT_DIR, dataverse_files[file_name])) as myfile:
+                with open('%s%s' % (ROOT_DIR, dataverse_files[filename])) as myfile:
                     header = myfile.readline()
                     col_names = list(header.split(','))
                 for col_name in col_names:
-                    output += '<a href="http://localhost:8000/AMPds/%s/%s"><button>&nbsp;&nbsp;%s&nbsp;&nbsp;</button></a>&nbsp;&nbsp;' % (file_name,col_name,col_name)
+                    output += '<a href="http://localhost:8000/AMPds.%s.%s"><button>&nbsp;&nbsp;%s&nbsp;&nbsp;</button></a>&nbsp;&nbsp;' % (filename,col_name,col_name)
                 output += '<a href="http://localhost:8000/AMPds"><button>&nbsp;&nbsp;back&nbsp;&nbsp;</button></a>'
                 output += '</body></html>'
                 self.wfile.write(output.encode())
 
-        for file_name in dataverse_files.keys():
+        for filename in dataverse_files.keys():
             for col_name in col_names:
-                if self.path.endswith('/%s/%s' % (file_name,col_name)):
+                if self.path.endswith('.%s.%s' % (filename,col_name)):
                         self.send_response(200)
                         self.send_header('content-type','text/html')
                         self.end_headers()
                         output = ''
                         output += '<html><body>'
                         output += '<pre>'
-                        file_reading = pd.read_csv('%s%s' % (ROOT_DIR, dataverse_files[file_name]), nrows = line_num)
+                        file_reading = pd.read_csv('%s%s' % (ROOT_DIR, dataverse_files[filename]), nrows = line_num)
                         for row in file_reading.loc[:,['TS',col_name]].iterrows():
-                            #output += file_reading.loc[:,['TS',col_name]]   ## this line has problem                  
                             output += '%s  %s\n' % (str(row[0]), str(row[1]))                
                         output += '</pre>'
                         output += '<a href="http://localhost:8000/AMPds"> <button> Back to Home Page </button></a>'
