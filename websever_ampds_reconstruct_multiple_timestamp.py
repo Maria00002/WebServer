@@ -123,8 +123,7 @@ class requestHandler(BaseHTTPRequestHandler):
                 contain_timestamp = not not_contain_timestamp                   
 
                 #localhost:8000/AMPds/B1E/V (TS  V  I  f  DPF  APF  P  Pt  Q  Qt  S  St)    
-                if contain_column and not contain_timestamp:
-                    global column_selected_TS
+                if contain_column:
                     column_list_input = common(self_path_list, col_names)
                     output = ''
                     output += '<html><body>'
@@ -134,17 +133,17 @@ class requestHandler(BaseHTTPRequestHandler):
                     df2 = printed_version.to_string(index=False)
                     if common(self_path_list, "*"):
                         df2 = column_selected_TS.to_string(index=False)
-                    output += '*Note the timestamp on file is not consecutive numbers <br>'
-                    output += '*If the corresponding Start Time is not on record, the previous recorded timestamp is used <br>'
-                    output += '*If the corresponding End Time is not on record, the next recorded timestamp is used <br>'
-                    output += '<pre>' 
-                    output += '%s' % df2
-                    output += '</pre>'
-                    output += '</body></html>'
-                
-                    
-                #localhost:8000/AMPds/B1E/V@1333263650~1333264030      
-                if contain_column and contain_timestamp:
+                    if not contain_timestamp:
+                        output += '*Note the timestamp on file is not consecutive numbers <br>'
+                        output += '*If the corresponding Start Time is not on record, the previous recorded timestamp is used <br>'
+                        output += '*If the corresponding End Time is not on record, the next recorded timestamp is used <br>'
+                        output += '<pre>' 
+                        output += '%s' % df2
+                        output += '</pre>'
+                        output += '</body></html>'
+                                        
+                    #localhost:8000/AMPds/B1E/V@1333263650~1333264030      
+                    if contain_timestamp:
                         length = len(time)
                         i = 0
                         j = 0
@@ -180,48 +179,28 @@ class requestHandler(BaseHTTPRequestHandler):
                             output += '</pre>'
                             output += '</body></html>'
                             j += 1
-                    
-                  
-                 
-
-
-
-
-                     
-                         
-
-                               
-                    
-
-
-                    # # single timestamp - working code
-                    # # if the start time is not on record, the previous recorded timestamp is used
-                    # start = df["TS"].loc[df['TS']<= int(float(start_end_list[0][0]))].max()
-                    # end = df["TS"].loc[df['TS'] >= int(float(start_end_list[0][1]))].min()
-                    # # if the end time is not on record, the next recorded timestamp is used
-                    # df_time = column_selected_TS.loc[start:end]
-                    # df_time_with_selected_column = df_time.to_string(index=False)
-                    # df2 = df_time_with_selected_column
-                    
+                        # # single timestamp - working code
+                        # # if the start time is not on record, the previous recorded timestamp is used
+                        # start = df["TS"].loc[df['TS']<= int(float(start_end_list[0][0]))].max()
+                        # end = df["TS"].loc[df['TS'] >= int(float(start_end_list[0][1]))].min()
+                        # # if the end time is not on record, the next recorded timestamp is used
+                        # df_time = column_selected_TS.loc[start:end]
+                        # df_time_with_selected_column = df_time.to_string(index=False)
+                        # df2 = df_time_with_selected_column
                 
-                    # if len(exclusion_time) != 0:
-                    #         # if the start time is not on record, the previous recorded timestamp is used
-                    #         exculsion_start = df["TS"].loc[df['TS']<= int(float(exclusion_start_end_list[0][0]))].max()
-                    #         exculsion_end = df["TS"].loc[df['TS'] >= int(float(exclusion_start_end_list[0][1]))].min()
-                    #         # if the end time is not on record, the next recorded timestamp is used
-                    #         df_2 = column_selected_TS.loc[exculsion_start:exculsion_end]
-                    #         list = df_2['TS']
-                    #         exclusion_df = column_selected_TS.index.isin(list)
-                    #         df2 = column_selected_TS[~exclusion_df].head(line_num)
-                    #         df_time_with_selected_column = df2.to_string(index=False)
-                    #         df_exclusion = df_time_with_selected_column
-                    #         output += '*Note the timestamp on file is not consecutive numbers <br>'
-                    #         output += '*If the corresponding Start Time is not on record, the previous recorded timestamp is used <br>'
-                    #         output += '*If the corresponding End Time is not on record, the next recorded timestamp is used <br>'
-                    #         output += '<pre>' 
-                    #         output += '%s' % df_exclusion
-                    #         output += '</pre>'
-                    #         output += '</body></html>'
+                        if len(exclusion_time) != 0:
+                            exculsion_start = df["TS"].loc[df['TS']<= int(float(exclusion_start_end_list[0][0]))].max()
+                            exculsion_end = df["TS"].loc[df['TS'] >= int(float(exclusion_start_end_list[0][1]))].min()
+                            df_2 = column_selected_TS.loc[exculsion_start:exculsion_end]
+                            list = df_2['TS']
+                            exclusion_df = column_selected_TS.index.isin(list)
+                            df2 = column_selected_TS[~exclusion_df].head(line_num)
+                            df_time_with_selected_column = df2.to_string(index=False)
+                            df_exclusion = df_time_with_selected_column
+                            output += '<pre>' 
+                            output += '%s' % df_exclusion
+                            output += '</pre>'
+                            output += '</body></html>'
         
         
 
