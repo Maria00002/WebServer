@@ -1,0 +1,59 @@
+# proper way of using TOML
+#         with open ("webserver.toml", mode = "rb") as file:
+#             webserver = tomllib.load(file)
+#         print(webserver["data"])    
+
+data =  ['AMPds', 'REFIT']
+
+[directories]
+MACOS_ROOT_DIR = '/Users/stephen/SourceCode/Maria/WebServer/AMPds/'
+WINDOWS_ROOT_DIR = 'C:\\Maria\\Figure 17 Research Paper\\'
+
+[AMPds]
+B1E = "B1E.CSV"
+B2E = "B2E.CSV" 
+BME = "BME.CSV" 
+CDE = "CDE.CSV" 
+CWE = "CWE.CSV" 
+DNE = "DNE.CSV" 
+DWE = "DWE.CSV" 
+EBE = "EBE.CSV" 
+EQE = "EQE.CSV" 
+FGE = "FGE.CSV" 
+FRE = "FRE.CSV" 
+GRE = "GRE.CSV" 
+HPE = "HPE.CSV" 
+HTE = "HTE.CSV" 
+OFE = "OFE.CSV" 
+OUE = "OUE.CSV" 
+TVE = "TVE.CSV" 
+UTE = "UTE.CSV" 
+WHE = "WHE.CSV" 
+WOE = "WOE.CSV"
+primary_key = "TS"
+
+
+
+[REFIT]
+House1 = "House1.CSV" 
+House2 = "House2.CSV"
+House3 = "House3.CSV" 
+House4 = "House4.CSV"
+House5 = "House5.CSV" 
+House6 = "House6.CSV"
+House7 = "House7.CSV" 
+House8 = "House8.CSV"
+House9 = "House9.CSV" 
+House10 = "House10.CSV"
+House11 = "House11.CSV" 
+House12 = "House12.CSV"
+House13 = "House13.CSV" 
+House15 = "House15.CSV"
+House16 = "House16.CSV" 
+House17 = "House17.CSV"
+House18 = "House18.CSV" 
+House19 = "House19.CSV"
+House20 = "House20.CSV"
+House21 = "House21.CSV" 
+primary_key = "Unix"
+
